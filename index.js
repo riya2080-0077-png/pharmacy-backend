@@ -1,8 +1,10 @@
 const express = require("express");
 const { Pool } = require("pg");
 const app = express();
+const path = require("path");
 
-app.use(express.urlencoded({ extended: true }));// (Using this line so that express can understand the incoming data)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
 const PORT = 8000;
 
@@ -19,33 +21,22 @@ pool.connect()
   .catch((err) => console.error("Connection error:", err.message));
 
 app.get("/", (req, res) => {
-  res.send("Backend is running");
+  res.sendFile(path.join(__dirname, "signup.html"));
 });
 
 app.get("/signup", (req, res) => {
-  res.send(`
-    <h1>Signup Page</h1>
-    <form method="POST" action="/signup">
-      <input type="text" name="username" placeholder="Enter your username" required />
-      <br><br>
-      <input type="email" name="email" placeholder="Enter your email" required />
-      <br><br>
-      <input type="password" name="password" placeholder="Enter your password" required />
-      <br><br>
-      <button type="submit">Sign Up</button>
-    </form>
-  `);
+  res.sendFile(path.join(__dirname, "signup.html"));
 });
 
 app.post("/signup", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
-  console.log("Form data:", username, email, password);
+  console.log("Form data:", username, email, password, role);
 
   try {
     await pool.query(
-      "INSERT INTO backend_users (username, email, password) VALUES ($1, $2, $3)",
-      [username, email, password]
+      "INSERT INTO backend_users (username, email, password, role) VALUES ($1, $2, $3, $4)",
+      [username, email, password, role]
     );
 
     res.send("User saved in database successfully");

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PharmaConnect Signup</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>💊 PharmaConnect Signup</h1>
+
+    <form method="POST" action="/signup">
+
+      <input type="text" name="username" placeholder="Enter Username" required />
+
+      <input type="email" name="email" placeholder="Enter Email" required />
+
+      <input type="password" name="password" placeholder="Enter Password" required />
+
+      <div class="role">
+        <strong>Select Role:</strong>
+
+        <label>
+          <input type="radio" name="role" value="user" required />
+          User
+        </label>
+
+        <label>
+          <input type="radio" name="role" value="pharmacy_owner" required />
+          Pharmacy Owner
+        </label>
+      </div>
+
+      <button type="submit">🚀 Sign Up</button>
+
+    </form>
+  </div>
+
+</body>
+</html>
