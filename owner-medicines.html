@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Owner Medicines</title>
+</head>
+
+<body>
+
+  <h2>💊 My Medicines</h2>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <script>
+  fetch("/owner-medicines-data")
+    .then(res => res.json())
+    .then(data => {
+
+      console.log("DATA:", data);
+
+      const table = document.getElementById("table-body");
+      table.innerHTML = "";
+
+      data.forEach(med => {
+        table.innerHTML += `
+          <tr>
+            <td>${med.medicine_name}</td>
+            <td>${med.price}</td>
+            <td>${med.stock}</td>
+            <td>
+              <button onclick="updateMedicine('${med.medicine_id}')">Update</button>
+              <button onclick="deleteMedicine('${med.medicine_id}')">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+
+    })
+    .catch(err => console.error("FETCH ERROR:", err));
+
+  function deleteMedicine(id) {
+    window.location.href = "/delete-medicine/" + id;
+  }
+
+  function updateMedicine(id) {
+    window.location.href = "/update-medicine/" + id;
+  }
+  </script>
+
+</body>
+</html>
